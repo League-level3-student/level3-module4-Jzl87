@@ -1,4 +1,8 @@
 package _02_IntroToQueues;
+
+import java.util.ArrayDeque;
+import java.util.Stack;
+
 /* 
  * OBJECTIVE:
  * 1. Push 100 double values onto a Stack.
@@ -35,21 +39,33 @@ public class _01_IntroToQueue {
         // 1. Create a Stack of Doubles using the Stack class
         //    Note: you have to use the capitalized Double and not double
 
+    	Stack <Double> stax = new Stack <Double> ();
         // 2. Use a loop to add 100 random doubles between 0 and 100 to the Stack
-
+    	for (int x = 0; x < 100; x++) {
+    		stax.push(Math.random()*100);
+    	}
         // 3. Create a Queue of Doubles using the ArrayDeque class
         //    Note: you have to use the capitalized Double and not double
 
+    	ArrayDeque <Double> queue = new ArrayDeque <Double> ();
         // 4. Pop off 5 elements from the Stack and add them to the Queue 
-
+    	for (int x = 0; x < 5; x++) {
+    		queue.add(stax.pop());
+    	}
         // 5. Print and remove a random number of elements, from 1 to 5 elements,
         //    from the front of the Queue. Example:
         //    "removing 3 elements from Queue: 25 57 2"
-
+    	int y =(int)(Math.random()*5);
+    	System.out.println("Removing " + y + " elements: ");
+    	
+    	for (int x =0; x <y; x++) {
+    		System.out.print(queue.remove() + ", ");
+    	}
         // 6. Pop off as many elements from the stack to fill the Queue with 5
         //    elements. If there aren't enough elements in the Stack to fill the 
         //    queue, fill the queue as much as possible. 
-
+    	
+    	
         // 7. Loop until there are no more elements in either the Stack or Queue
         //    and all the elements are printed
         
