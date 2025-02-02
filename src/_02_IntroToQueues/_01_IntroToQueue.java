@@ -44,6 +44,7 @@ public class _01_IntroToQueue {
     	for (int x = 0; x < 100; x++) {
     		stax.push(Math.random()*100);
     	}
+    	System.out.println("---------------------");
         // 3. Create a Queue of Doubles using the ArrayDeque class
         //    Note: you have to use the capitalized Double and not double
 
@@ -52,6 +53,7 @@ public class _01_IntroToQueue {
     	for (int x = 0; x < 5; x++) {
     		queue.add(stax.pop());
     	}
+    	System.out.println("---------------------");
         // 5. Print and remove a random number of elements, from 1 to 5 elements,
         //    from the front of the Queue. Example:
         //    "removing 3 elements from Queue: 25 57 2"
@@ -64,10 +66,19 @@ public class _01_IntroToQueue {
         // 6. Pop off as many elements from the stack to fill the Queue with 5
         //    elements. If there aren't enough elements in the Stack to fill the 
         //    queue, fill the queue as much as possible. 
+    	System.out.println("---------------------");
+    	while (!stax.isEmpty() || queue.size() == 5) {
+    		queue.add(stax.pop());
+    	}
     	
-    	
+    	System.out.println("---------------------");
         // 7. Loop until there are no more elements in either the Stack or Queue
         //    and all the elements are printed
-        
+    	 while (!stax.isEmpty()) {
+    	    	System.out.println(stax.pop());
+    	        }
+    	 while (!queue.isEmpty()) {
+    	    	System.out.println(queue.pop());
+    	        }
     }
 }
