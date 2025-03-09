@@ -10,22 +10,27 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Hangman implements KeyListener {
-	static JFrame mainFrame = new JFrame("Hangman!");
-	static JPanel panel = new JPanel();
-	static JLabel guessLabel = new JLabel();
+	JFrame mainFrame = new JFrame("Hangman!");
+	JPanel panel = new JPanel();
+	JLabel guessLabel = new JLabel();
+	JLabel livesLabel = new JLabel("Lives: ");
 
-	static String currentWord;
+	String[] guessText;
+	String currentWord;
+	int lives = 5;
 
-	static Stack<String> wordList = new Stack<String>();
+	Stack<String> wordList = new Stack<String>();
+
+	static Hangman g = new Hangman();
 
 	public static void main(String[] args) {
-		wordListSetup();
-		windowSetup();
-		wordSetup();
+		g.wordListSetup();
+		g.windowSetup();
+		g.wordSetup();
 
 	}
 
-	public static void wordListSetup() {
+	public void wordListSetup() {
 		// get length
 		String wordLengthString = JOptionPane.showInputDialog(null, "How many words? (#)");
 		int wordLength = Integer.parseInt(wordLengthString);
@@ -38,46 +43,112 @@ public class Hangman implements KeyListener {
 				wordList.push(nextWord);
 			}
 		}
-
 	}
 
-	public static void wordSetup() {
-		currentWord = wordList.pop();
-		String guessLabelText = "";
-		for (int x = 0; x < currentWord.length(); x++) {
-			guessLabelText += " _";
+	public void wordSetup() {
+		if (wordList.size()>0) {
+			currentWord = wordList.pop();
+		} else {
+			endGame();
 		}
-		guessLabel.setText(guessLabelText);
-		mainFrame.pack();
+		
+		guessText = new String[currentWord.length()];
 
+		for (int x = 0; x < guessText.length; x++) {
+			guessText[x] = "_ ";
+		}
+
+		update();
+
+		System.out.println(currentWord);
 	}
 
-	public static void windowSetup() {
+	public void windowSetup() {
 		mainFrame.add(panel);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.add(panel);
+		panel.add(livesLabel);
 		panel.add(guessLabel);
+		mainFrame.addKeyListener(this);
 		mainFrame.setVisible(true);
+	}
+
+	public void update() {
+		if (lives > 0) {
+
+			String guessString = "";
+			for (String x : guessText) {
+				guessString += x;
+			}
+			guessLabel.setText(guessString);
+
+			if (guessString.equals(currentWord)) {
+				wordSetup();
+				
+			}
+			
+			// set lives text
+			livesLabel.setText("Lives: " + lives);
+			mainFrame.pack();
+
+		} else {
+			endGame();
+		}
+	}
+	
+	public void endGame () {
+		mainFrame.setVisible(false);
+		int selected;
+		
+		if (lives>0) {
+			selected = JOptionPane.showConfirmDialog(null, "Congratulations! You've won! Would you you like to play again?");
+		} else {
+			selected = JOptionPane.showConfirmDialog(null, "You've Lost. Would you you like to play again?");
+		}
+		
+		if (selected == 0) {
+			g.wordListSetup();
+			g.windowSetup();
+			g.wordSetup();
+			mainFrame.setVisible(true);
+			lives = 5;
+		} 
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
-		
-		//USE THIS METHOD FOR THE REST OF THE PROGRAM
+		char pressed = e.getKeyChar();
+		char[] word = currentWord.toCharArray();
+
+		System.out.println(pressed);
+
+		boolean found = false;
+		for (int x = 0; x < word.length; x++) {
+			if (word[x] == pressed) {
+				guessText[x] = pressed + "";
+				found = true;
+			}
+		}
+
+		if (!found) {
+			lives--;
+		}
+
+		update();
+
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
