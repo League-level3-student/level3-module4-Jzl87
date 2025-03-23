@@ -8,7 +8,7 @@ public class Cell {
     private int row;
     private int col;
 
-    private int size = 100;
+    private int size = 100/8;
 
     private boolean visited;
 
@@ -31,7 +31,7 @@ public class Cell {
 
     public void draw(Graphics g){
         g.setColor(Color.BLUE);
-        g.fillOval((col * size) + (size / 2) + MARGIN, (row * size) + (size / 2) + MARGIN, 4, 4);
+       
 
         g.setColor(Color.RED);
 

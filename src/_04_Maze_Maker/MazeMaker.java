@@ -24,41 +24,45 @@ public class MazeMaker {
         //    the opposite wall and remove its exterior wall. This will be the
         //    finish line.
         
+        maze.getCell(randGen.nextInt(r), 0).setWestWall(false);
+        maze.getCell(randGen.nextInt(r), c-1).setEastWall(false);
+        
         // 2. select a random cell in the maze to start 
         
+        int randomRow = randGen.nextInt(r);
+        int randomColumn =  randGen.nextInt(c);
+        maze.getCell(randomRow, randomColumn).hasBeenVisited();
+        
         // 3. call the selectNextPath method with the randomly selected cell
-
+        selectNextPath(maze.getCell(randomRow, randomColumn));
+        
+        
         return maze;
     }
 
     // 4. Complete the selectNextPathMethod
     private static void selectNextPath(Cell currentCell) {
         // A. SET currentCell as visited
-
+    	currentCell.setBeenVisited(true);
         // B. check for unvisited neighbors using the cell
-
+    	ArrayList <Cell> unvisitedNeighbors = getUnvisitedNeighbors(currentCell);
+    		
+    	
         // C. if has unvisited neighbors,
+    	if (unvisitedNeighbors.size() > 0) {
+    		Cell randCell = unvisitedNeighbors.get(randGen.nextInt(0, unvisitedNeighbors.size()));
+    		uncheckedCells.push(randCell);
+    		removeWalls(randCell, currentCell);
+    		currentCell = randCell;
+    		randCell.setBeenVisited(true);
+    		selectNextPath(currentCell);
+    	} else if (unvisitedNeighbors.size() == 0 && uncheckedCells.size() != 0) {
+    		Cell newCell = uncheckedCells.pop();
+    		currentCell = newCell;
+    		selectNextPath(currentCell);
+    	}
 
-        // C1. select one at random.
-
-        // C2. push it to the stack
-
-        // C3. remove the wall between the two cells
-
-        // C4. make the new cell the current cell and SET it as visited
-
-        // C5. call the selectNextPath method with the current cell
-
-
-        // D. if all neighbors are visited
-
-        // D1. if the stack is not empty
-
-        // D1a. pop a cell from the stack
-
-        // D1b. make that the current cell
-
-        // D1c. call the selectNextPath method with the current cell
+    	
 
     }
 
